@@ -1,32 +1,55 @@
 <!doctype html>
-
-<html>
+<html lang="en">
   <head>
-    <title>sortable-list test</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <link rel="import" href="../sortable-list.html">
+    <title>sortable-list test</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+
+    <script type="module" src="../sortable-list.js"></script>
   </head>
   <body>
 
-    <test-fixture id="basic">
+    <test-fixture id="BasicTestFixture">
       <template>
         <sortable-list></sortable-list>
       </template>
     </test-fixture>
 
-    <script>
-      suite('sortable-list', function() {
+    <test-fixture id="ChangedPropertyTestFixture">
+      <template>
+        <sortable-list prop1="new-prop1"></sortable-list>
+      </template>
+    </test-fixture>
 
-        test('instantiating the element works', function() {
-          var element = fixture('basic');
-          assert.equal(element.is, 'sortable-list');
+    <script type="module">
+      suite('sortable-list', () => {
+
+        test('instantiating the element with default properties works', () => {
+          const element = fixture('BasicTestFixture');
+          assert.equal(element.prop1, 'sortable-list');
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello sortable-list!');
+        });
+
+        test('setting a property on the element works', () => {
+          // Create a test fixture
+          const element = fixture('ChangedPropertyTestFixture');
+          assert.equal(element.prop1, 'new-prop1');
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
         });
 
       });
     </script>
+
   </body>
 </html>

@@ -1,38 +1,21 @@
-[![License](https://img.shields.io/github/license/sharedlabs/sortable-list.svg?style=flat-square)](https://github.com/sharedlabs/sortable-list/blob/master/LICENSE.md)
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://beta.webcomponents.org/element/sharedlabs/sortable-list)
+# \<sortable-list\>
 
-_[Demo and API docs](https://www.webcomponents.org/element/sharedlabs/sortable-list)_
 
-![GIF](https://zippy.gfycat.com/IncredibleBronzeKillerwhale.gif)
 
-# sortable-list
+## Install the Polymer-CLI
 
-`sortable-list` is a custom element that allows you to sort an element from a list by dragging it.
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
 
-```html
-<sortable-list on-sort-finish="_onSortFinish" dragging="{{dragging}}">
-  <div>Item 1</div>
-  <div>Item 2</div>
-  <div>Item 3</div>
-</sortable-list>
+## Viewing Your Element
 
-...
-onSortFinish(event) {
-  const sortedItem = event.detail.target;
-}
+```
+$ polymer serve
 ```
 
-When using a dom-repeat you must specify which items are sortable.
-```html
-<sortable-list sortable=".item">
-  <dom-repeat>
-    <div class="item"></div>
-  </dom-repeat>
-</sortable-list>
+## Running Tests
+
+```
+$ polymer test
 ```
 
----
-
-### TODO:
-
-- [ ] Allow sort of elements with different sizes #2
+Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
