@@ -13,6 +13,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import { idlePeriod } from '@polymer/polymer/lib/utils/async.js';
 import { addListener, removeListener } from '@polymer/polymer/lib/utils/gestures.js';
+import { FlattenedNodesObserver } from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
 
 class SortableList extends GestureEventListeners(PolymerElement) {
   static get template() {
@@ -270,7 +271,7 @@ class SortableList extends GestureEventListeners(PolymerElement) {
     if (this.dragging) {
       return;
     }
-    const items = this.$.slot.assignedNodes().filter(node => {
+    const items = this.shadowRoot.querySelector('slot').assignedNodes().filter(node => {
       if ((node.nodeType === Node.ELEMENT_NODE) &&
           (!this.sortable || node.matches(this.sortable))) {
         return true;
@@ -310,10 +311,10 @@ class SortableList extends GestureEventListeners(PolymerElement) {
 
   _observeItems() {
     if (!this._observer) {
-      this._observer = new MutationObserver(_ => {
+      this._observer = new FlattenedNodesObserver(this.shadowRoot.querySelector('slot'), (evt) => {
+        let effectiveChildren = FlattenedNodesObserver.getFlattenedNodes(evt.target).filter(n => n.nodeType === Node.ELEMENT_NODE)
         this._updateItems();
-      });
-      this._observer.observe(this, {childList: true});
+      })
     }
   }
 
